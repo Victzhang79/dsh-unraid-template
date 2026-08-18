@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>dsh</Name>
-  <Repository>crushleorey/dsh:0.1.0-rc.7</Repository>
+  <Repository>crushleorey/dsh:latest</Repository>
   <Network>bridge</Network>
   <Privileged>false</Privileged>
   <Mode>always</Mode>

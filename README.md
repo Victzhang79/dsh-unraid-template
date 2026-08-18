@@ -35,8 +35,8 @@ Docker → Add Container → 从本仓库的 `my-dsh.xml` 导入模板。
 - 镜像仓库：`crushleorey/dsh`（Docker Hub，公开）
 - 当前版本：`0.1.0-rc.7`
 - 基础镜像：`node:24-slim`（node 24 "Krypton" LTS，Active LTS 支持到 2028-04；dsh 未声明 engines，node 22/24 均验证可用）
-- 更新：改模板 `Repository` 为 `crushleorey/dsh:<新版本>` → Apply，或点 Unraid 的 Update 按钮（从 Docker Hub 拉最新 tag）。
-- 遵循上游 rc 语义，只发布带版本号的 tag，不维护 `latest`。
+- 更新：模板 `Repository` 用漂浮标签 `crushleorey/dsh:latest`，每当有新版本推送到 Docker Hub，Unraid 的 **Update 按钮**就会亮起，点一下即在系统里拉取并重建容器（无需手动改模板）。
+- 遵循上游 rc 语义，只发布带版本号的 tag，`latest` 漂浮标签指向当前推送的最新版本。
 
 ## Env 说明
 
