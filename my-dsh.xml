@@ -9,6 +9,10 @@
   <Shell>sh</Shell>
   <Overview>DeepSeek Harness (dsh) — DeepSeek 官方 agent harness, "everything is a plugin"。单容器 = nginx(basic auth + TLS, 80/443) 反代 → dsh(127.0.0.1:3080)。插件/配置/凭证持久化在 /data。公共版: DSH_AUTH_PASS 留空则首启生成随机密码写入 /data/initial-password.txt 供登录; DSH_TRUSTED_HOST 通常留空(nginx 已把 Host 重写为 loopback)。</Overview>
   <Category>AI</Category>
+  <Icon>https://raw.githubusercontent.com/Victzhang79/dsh-unraid-template/main/dsh-logo.png</Icon>
+  <Logo>https://raw.githubusercontent.com/Victzhang79/dsh-unraid-template/main/dsh-logo.png</Logo>
+  <Support>https://github.com/Victzhang79/dsh-unraid-template</Support>
+  <Project>https://github.com/Victzhang79/dsh-unraid-template</Project>
   <WebUI>https://[IP]</WebUI>
   <Config Type="Path" Name="Harness Home" Target="/data" Default="/mnt/user/appdata/dsh/home/" Mode="rw" Description="profiles / 插件 / cordis.patch.yml / 凭证 / AGENTS.md / skills（首启必填写, 默认已有）"/>
   <Config Type="Path" Name="Workspace" Target="/workspace" Default="/mnt/user/appdata/dsh/workspace/" Mode="rw" Description="agent 工作目录"/>
