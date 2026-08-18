@@ -28,12 +28,13 @@ Docker → Add Container → 从本仓库的 `my-dsh.xml` 导入模板。
 - 密码：**DSH_AUTH_PASS 留空则容器首启用 openssl 生成随机密码**，写入挂载卷里的 `initial-password.txt`（例如 `/mnt/user/appdata/dsh/home/initial-password.txt`）。
 - 浏览器接受一次自签名证书警告即可。
 
-修改 Web UI 密码：在模板里改 `DSH_AUTH_PASS` 变量 → Apply → 容器会重建生效。
+修改 Web UI 密码：在 Unraid 编辑页直接改模板里的 `DSH_AUTH_PASS` 变量 → **Apply**(容器重建,entrypoint 用新密码重建 htpasswd),改完用新密码登录即可。
 
 ## 镜像
 
 - 镜像仓库：`crushleorey/dsh`（Docker Hub，公开）
 - 当前版本：`0.1.0-rc.7`
+- 基础镜像：`node:24-slim`（node 24 "Krypton" LTS，Active LTS 支持到 2028-04；dsh 未声明 engines，node 22/24 均验证可用）
 - 更新：改模板 `Repository` 为 `crushleorey/dsh:<新版本>` → Apply，或点 Unraid 的 Update 按钮（从 Docker Hub 拉最新 tag）。
 - 遵循上游 rc 语义，只发布带版本号的 tag，不维护 `latest`。
 
