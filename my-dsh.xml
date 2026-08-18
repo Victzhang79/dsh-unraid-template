@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>dsh</Name>
+  <Repository>crushleorey/dsh:0.1.0-rc.7</Repository>
+  <Network>bridge</Network>
+  <Privileged>false</Privileged>
+  <Mode>always</Mode>
+  <Autostart>true</Autostart>
+  <Shell>sh</Shell>
+  <Overview>DeepSeek Harness (dsh) — DeepSeek 官方 agent harness, "everything is a plugin"。单容器 = nginx(basic auth + TLS, 80/443) 反代 → dsh(127.0.0.1:3080)。插件/配置/凭证持久化在 /data。公共版: DSH_AUTH_PASS 留空则首启生成随机密码写入 /data/initial-password.txt 供登录; DSH_TRUSTED_HOST 通常留空(nginx 已把 Host 重写为 loopback)。</Overview>
+  <Category>AI</Category>
+  <WebUI>https://[IP]</WebUI>
+  <Config Type="Path" Name="Harness Home" Target="/data" Default="/mnt/user/appdata/dsh/home/" Mode="rw" Description="profiles / 插件 / cordis.patch.yml / 凭证 / AGENTS.md / skills（首启必填写, 默认已有）"/>
+  <Config Type="Path" Name="Workspace" Target="/workspace" Default="/mnt/user/appdata/dsh/workspace/" Mode="rw" Description="agent 工作目录"/>
+  <Config Type="Variable" Name="DSH_AUTH_USER" Target="DSH_AUTH_USER" Value="admin" Description="Web UI basic auth 用户名"/>
+  <Config Type="Variable" Name="DSH_AUTH_PASS" Target="DSH_AUTH_PASS" Value="" Description="Web UI basic auth 密码。留空则首启用 openssl 生成随机密码写入 /data/initial-password.txt。改这里即改密码"/>
+  <Config Type="Variable" Name="DSH_TRUSTED_HOST" Target="DSH_TRUSTED_HOST" Value="" Description="一般留空即可(nginx 已把 Host 重写为 loopback)。若访问域名/反代导致 /api 403, 把访问用的主机名或 IP 填这里"/>
+  <Config Type="Variable" Name="DSH_PERMISSION_MODE" Target="DSH_PERMISSION_MODE" Value="danger-full-access" Description="沙箱模式: 容器内无 bwrap/Landlock, 用 danger-full-access 让 bash 工具免沙箱直接跑。风险自负：agent 可执行任意命令，但容器隔离、只挂 /data 和 /workspace"/>
+</Container>
