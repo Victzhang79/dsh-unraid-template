@@ -32,11 +32,11 @@ Docker → Add Container → 从本仓库的 `my-dsh.xml` 导入模板。
 
 ## 镜像
 
-- 镜像仓库：`crushleorey/dsh`（Docker Hub，公开）
+- 镜像仓库：`crushleorey/dsh`（Docker Hub，公开，**multi-arch：amd64 + arm64**）
 - 当前版本：`0.1.0-rc.7`
+- 发布策略：**带版本号的 tag + 漂浮 `latest` 双轨**（模板默认用 `latest`，Unraid Update 按钮可检测新推送一键更新）；全部公开 tag 均为 multi-arch manifest，x86 与 ARM 上同一命令自动拉取对应架构。
 - 基础镜像：`node:24-slim`（node 24 "Krypton" LTS，Active LTS 支持到 2028-04；dsh 未声明 engines，node 22/24 均验证可用）
-- 更新：模板 `Repository` 用漂浮标签 `crushleorey/dsh:latest`，每当有新版本推送到 Docker Hub，Unraid 的 **Update 按钮**就会亮起，点一下即在系统里拉取并重建容器（无需手动改模板）。
-- 遵循上游 rc 语义，只发布带版本号的 tag，`latest` 漂浮标签指向当前推送的最新版本。
+- 更新：改模板 `Repository` 为 `crushleorey/dsh:<新版本>` → Apply，或点 Unraid 的 Update 按钮（从 Docker Hub 拉最新 tag）。
 
 ## Env 说明
 
@@ -51,4 +51,4 @@ Docker → Add Container → 从本仓库的 `my-dsh.xml` 导入模板。
 
 ## 构建（维护者用）
 
-镜像由 `node:22-slim` + nginx/openssl + `@deepseek-ai/dsh@<ver>` 构建，Dockerfile/entrypoint/nginx.conf 见同源留档。本仓库只托管 Unraid 模板，镜像单独推 Docker Hub。
+镜像由 `node:24-slim` + nginx/openssl + `@deepseek-ai/dsh@<ver>` 构建，Dockerfile/entrypoint/nginx.conf 见同源留档。本仓库只托管 Unraid 模板，镜像单独推 Docker Hub（amd64 由 x86 宿主构建、arm64 由 aarch64 宿主构建后合并 multi-arch manifest）。
