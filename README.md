@@ -33,10 +33,10 @@ Docker → Add Container → 从本仓库的 `my-dsh.xml` 导入模板。
 ## 镜像
 
 - 镜像仓库：`crushleorey/dsh`（Docker Hub，公开，**multi-arch：amd64 + arm64**）
-- 当前版本：`0.1.0-rc.7`
+- 当前版本：`0.1.0-rc.8`
 - 发布策略：**带版本号的 tag + 漂浮 `latest` 双轨**（模板默认用 `latest`，Unraid Update 按钮可检测新推送一键更新）；全部公开 tag 均为 multi-arch manifest，x86 与 ARM 上同一命令自动拉取对应架构。
 - 基础镜像：`node:24-slim`（node 24 "Krypton" LTS，Active LTS 支持到 2028-04；dsh 未声明 engines，node 22/24 均验证可用）
-- 更新：改模板 `Repository` 为 `crushleorey/dsh:<新版本>` → Apply，或点 Unraid 的 Update 按钮（从 Docker Hub 拉最新 tag）。
+- 更新：改模板 `Repository` 为 `crushleorey/dsh:0.1.0-rc.8<新版本>` → Apply，或点 Unraid 的 Update 按钮（从 Docker Hub 拉最新 tag）。
 
 ## Env 说明
 
