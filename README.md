@@ -38,22 +38,14 @@ Docker → Add Container → 从本仓库的 `my-dsh.xml` 导入模板。
 - 基础镜像：`node:24-slim`（node 24 "Krypton" LTS，Active LTS 支持到 2028-04；dsh 未声明 engines，node 22/24 均验证可用）
 - 更新：改模板 `Repository` 为 `crushleorey/dsh:0.1.0-rc.8<新版本>` → Apply，或点 Unraid 的 Update 按钮（从 Docker Hub 拉最新 tag）。
 
-## 常见问题：Settings / 提供方目录打不开？（rc.8 起 loopback 限制）
+## 常见问题：Settings / 提供方目录打不开？（上游 rc.8 起 loopback 限制，本镜像已内置 lanfix）
 
-从 **rc.8** 起，上游把「Settings / 提供方目录 / 模型 / 凭据」这类特权配置 UI 限制为只能从 **loopback 浏览器**（地址栏是 `localhost` / `127.0.0.1`）打开。用 LAN IP 访问时页面仍可用、**会话/聊天完全正常**，但 Settings 会显示：
-`加载提供方目录失败: settings are unavailable in this browser`
+上游从 **rc.8** 起把「Settings / 提供方目录 / 模型 / 凭据」这类特权配置 UI 限制为只能从 **loopback 浏览器**打开（远程浏览器默认不发起特权读）。但我们这个镜像**已经内置 lanfix 补丁**，彻底绕开了这个限制：
 
-这是**上游的安全设计**（远程浏览器不发起特权读，防止 DNS-rebinding/跨站拿到你的密钥），**不是你的部署问题，也不是缓存**（硬刷新无效）。模型/提供方其实已在 `/data` 的配置里（`settings.yaml` / `.credentials.yaml`），不影响使用。
+- 用 LAN IP 打开 `https://<dsh-ip>/` → 登录 → **Settings / 提供方 / 模型 / 凭据 直接可用**，无需 SSH 隧道、不会出现 `settings are unavailable in this browser`。
+- lanfix 只改 `dsh-client-connection` 的 `isLoopback` 判定一行，不影响 dsh 本体；锚点带 fail-closed 校验（每构建自动重打，锚点变了构建失败并回滚旧镜像，不会静默丢补丁）。
 
-**要配 Settings（模型、提供方、API Key 等）**，本地开一条 SSH 隧道，再用 `localhost` 访问：
-
-```bash
-# <port> 换成任意未占用端口(如 8443)；<dsh-ip> 换成你 dsh 的固定 IP(如 192.168.50.31)；<跳板机> 换成能访问该 IP 的机器(通常就是装了 dsh 的 Unraid)
-ssh -N -L <port>:<dsh-ip>:443 <跳板机>
-```
-浏览器打开 `https://localhost:<port>` → 接受一次自签证书警告 → 用 `DSH_AUTH_USER` / `DSH_AUTH_PASS` 登录 → Settings 全部可用。
-
-> 若你希望 LAN IP 也能开 Settings，可给上游提 issue（这是 dsh 官方 RC 的设计取舍）；不建议自行改前端 bundle——每次升级镜像都会被覆盖。
+> 若你因任何原因跑的是**上游原版/未打补丁**镜像，才需要改走 loopback 入口：本地 `ssh -N -L <port>:<dsh-ip>:443 <跳板机>`，浏览器开 `https://localhost:<port>`（接受一次自签证书警告）。
 
 ## Env 说明
 
